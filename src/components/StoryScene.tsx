@@ -24,6 +24,13 @@ function StoryScene({ story }: StorySceneProps) {
 
     // Skip blur filter on mobile — CSS filter is expensive on low-end GPUs
     const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    if (isMobile) {
+      gsap.set(media, {
+        opacity: 1,
+        filter: 'none',
+      });
+      return;
+    }
     const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     if (isReducedMotion) {
@@ -131,7 +138,7 @@ function StoryScene({ story }: StorySceneProps) {
           <MediaRenderer
             src={story.image}
             alt={story.title}
-            className="object-cover animate-kenburns origin-center"
+            className="object-cover"
             sizes="100vw"
           />
         ) : null}
@@ -141,16 +148,8 @@ function StoryScene({ story }: StorySceneProps) {
       <div className="absolute inset-0 z-10 bg-gradient-to-b from-black/40 via-transparent to-transparent pointer-events-none" />
 
       {/* Blur fadeout at the bottom */}
-      <div
-        className="absolute bottom-0 left-0 right-0 z-10 h-56 pointer-events-none"
-        style={{
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
-          maskImage: 'linear-gradient(to top, black 20%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to top, black 20%, transparent 100%)',
-        }}
-      />
-      <div className="absolute inset-0 z-15 feather-effect pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 right-0 z-10 h-56 bg-gradient-to-t from-black/90 to-transparent pointer-events-none" />
+
       {/* Content — anchored to bottom-left */}
       <div className="absolute bottom-10 left-20 right-0 z-20 flex flex-col items-start text-left px-8 pb-12 md:px-16 md:pb-16 max-w-2xl">
 
